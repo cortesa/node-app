@@ -20,6 +20,21 @@ pipeline {
         }
       }
     }
+    stage('AWS Deployment') {
+      steps {
+          withCredentials([
+            usernamePassword(credentialsId: 'acz', passwordVariable: 'AWS_SECRET', usernameVariable: 'AWS_KEY'),
+          ]) {
+            sh 'rm -rf node-app-terraform'
+            sh 'git clone https://github.com/goforgold/node-app-terraform.git'
+            sh '''
+               cd node-app-terraform
+               terraform init
+               terraform apply -auto-approve -var access_key=${AWS_KEY} -var secret_key=${AWS_SECRET}
+            '''
+        }
+      }
+    }
   }
   environment {
     npm_config_cache = 'npm-cache'
