@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+//test of hook
+
 /**
  * Module dependencies.
  */
